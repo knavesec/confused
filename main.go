@@ -68,7 +68,20 @@ func main() {
 	}
 	
 	if url_file != "" {
-		resp, err := http.Get(url_file)
+		client := &http.Client{}
+
+        req, err := http.NewRequest("GET", url_file, nil)
+        if err != nil {
+			fmt.Printf(" [W] Error when trying to request %s: %s\n", url_file, err)
+			os.Exit(1)
+        }
+        req.Header.Set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36 Edg/125.0.2535.79")
+        resp, err := client.Do(req)
+        // if err != nil {
+        //         log.Fatalln(err)
+        // }
+
+		// resp, err := http.Get(url_file)
 		if err != nil {
 			fmt.Printf(" [W] Error when trying to request %s: %s\n", url_file, err)
 			os.Exit(1)
