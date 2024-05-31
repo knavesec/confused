@@ -1,3 +1,3 @@
-module github.com/visma-prodsec/confused
+module github.com/knavesec/confused
 
 go 1.18
