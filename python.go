@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/pelletier/go-toml"
-	"io/ioutil"
+	// "io/ioutil"
 	"net/http"
 	"strings"
 )
@@ -23,12 +23,12 @@ func NewPythonLookup(verbose bool, packageManager string) PackageResolver {
 // ReadPackagesFromFile chooses a file parser based on the user-supplied python package manager.
 //
 // Returns any errors encountered
-func (p *PythonLookup) ReadPackagesFromFile(filename string) error {
+func (p *PythonLookup) ReadPackagesFromFile(rawfile []byte) error {
 	switch p.PackageManager {
 	case "pip":
-		return p.ReadPackagesFromRequirementsTxt(filename)
+		return p.ReadPackagesFromRequirementsTxt(rawfile)
 	case "pipenv":
-		return p.ReadPackagesFromPipfile(filename)
+		return p.ReadPackagesFromPipfile(rawfile)
 	default:
 		return fmt.Errorf("Python package manager not implemented: %s", p.PackageManager)
 	}
@@ -37,11 +37,11 @@ func (p *PythonLookup) ReadPackagesFromFile(filename string) error {
 // ReadPackagesFromRequirementsTxt reads package information from a python `requirements.txt`.
 //
 // Returns any errors encountered
-func (p *PythonLookup) ReadPackagesFromRequirementsTxt(filename string) error {
-	rawfile, err := ioutil.ReadFile(filename)
-	if err != nil {
-		return err
-	}
+func (p *PythonLookup) ReadPackagesFromRequirementsTxt(rawfile []byte) error {
+	// rawfile, err := ioutil.ReadFile(filename)
+	// if err != nil {
+	// 	return err
+	// }
 	line := ""
 	for _, l := range strings.Split(string(rawfile), "\n") {
 		l = strings.TrimSpace(l)
@@ -69,11 +69,11 @@ func (p *PythonLookup) ReadPackagesFromRequirementsTxt(filename string) error {
 // ReadPackagesFromPipfile reads package information from a python `Pipfile`.
 //
 // Returns any errors encountered
-func (p *PythonLookup) ReadPackagesFromPipfile(filename string) error {
-	rawfile, err := ioutil.ReadFile(filename)
-	if err != nil {
-		return err
-	}
+func (p *PythonLookup) ReadPackagesFromPipfile(rawfile []byte) error {
+	// rawfile, err := ioutil.ReadFile(filename)
+	// if err != nil {
+	// 	return err
+	// }
 	config, err := toml.Load(string(rawfile))
 	if err != nil {
 		return err

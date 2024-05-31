@@ -38,7 +38,9 @@ func main() {
 	}
 
 	switch lang {
-	case "pip" || lang == "pipenv" :
+	case "pip":
+		resolver = NewPythonLookup(verbose, lang)
+	case "pipenv":
 		resolver = NewPythonLookup(verbose, lang)
 	case "npm":
 		resolver = NewNPMLookup(verbose)
